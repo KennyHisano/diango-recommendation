@@ -11,7 +11,8 @@ import subprocess
 
 def generate_new_rules():
 	# "C:\Program Files\R\R-2.15.2\bin\x64\Rscript.exe"
-	RScriptCmd = u"C:\\Program Files\\R\\R-3.0.0\\bin\\x64\Rscript.exe"
+	# be careful for the path!
+	RScriptCmd = u"/usr/local/bin/Rscript"
 	Rfilepath = os.path.join(settings.PROJECT_ROOT, 'r', 'generate_new_rules.R')
 	Rargs = "--vanilla"
 	command = [RScriptCmd, Rfilepath, Rargs]
@@ -38,6 +39,7 @@ def buy(request):
 def recommned(request):
 	prods =  request.GET.getlist('products')
 	rec = [ str(i) for i in Recommendation.objects.filter(buy__pk__in=prods).values_list('rec__name', flat = True)]
+	#rec_name = for each. we have to name it so
 	for p in prods:
 		rec  = remove_values_from_list(rec, Product.objects.get(pk=p).name)
 	c = Counter(rec).most_common()
